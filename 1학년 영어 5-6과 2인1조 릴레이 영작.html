@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중1 영어 2인 1조 릴레이 영작 퀴즈 (바다 표면 테마)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                        en: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes wave-shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .ocean-gradient-bg {
+            background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 35%, #0284c7 70%, #0369a1 100%);
+            background-size: 200% 200%;
+            animation: wave-shine 12s ease infinite;
+        }
+        .word-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .word-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+        .word-btn:active {
+            transform: translateY(1px) scale(0.97);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="ocean-gradient-bg min-h-screen font-sans text-slate-800 flex flex-col justify-between">
+
+    <!-- Header Section -->
+    <header class="border-b border-white/30 bg-white/30 backdrop-blur-md sticky top-0 z-50 px-4 py-3 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('screen-welcome')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/40 text-white">
+                    <i class="fa-solid fa-water text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg leading-tight text-slate-900 flex items-center gap-2">
+                        2인 1조 릴레이 영작 <span class="bg-blue-600 text-xs text-white px-2.5 py-0.5 rounded-full font-bold">중1 필수</span>
+                    </h1>
+                    <p class="text-xs text-slate-800 font-semibold">교과서 지문 + 필수 문법 총 145문장 수록</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleTeacherModal()" class="px-3.5 py-1.5 rounded-xl bg-white/80 hover:bg-white text-blue-900 border border-white/60 text-xs font-bold shadow-sm flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-book-open text-blue-600"></i>
+                    <span>전체 문장 목록 (145)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow flex flex-col justify-center">
+
+        <!-- Welcome Screen -->
+        <div id="screen-welcome" class="screen-block space-y-6 max-w-lg mx-auto w-full">
+            <div class="text-center space-y-3">
+                <div class="inline-block px-4 py-1.5 rounded-full bg-white/80 border border-white text-blue-900 text-xs font-extrabold shadow-sm animate-float">
+                    <i class="fa-solid fa-trophy text-amber-500 mr-1"></i> 시원한 바다 상쾌한 릴레이 영작 도전!
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight drop-shadow-md">
+                    한글 지문 문장을 보고<br>
+                    <span class="text-amber-300 drop-shadow">가장 빠르고 정확하게 완성하라!</span>
+                </h2>
+                <p class="text-white/90 text-sm font-semibold">
+                    지문 및 문법 영역별 랜덤 10문장 출제
+                </p>
+            </div>
+
+            <div class="bg-white/85 border border-white/90 rounded-3xl p-6 shadow-2xl backdrop-blur-xl space-y-5">
+                <!-- Challenge Rules Banner -->
+                <div class="bg-gradient-to-r from-sky-100 via-cyan-50 to-blue-100 border border-cyan-200 rounded-2xl p-4 text-xs text-slate-700 flex items-center justify-between gap-3 shadow-inner">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-black flex items-center justify-center shrink-0 text-xl shadow-md">
+                            🌊
+                        </div>
+                        <div>
+                            <p class="font-bold text-blue-950 text-sm">스피드 & 정답률 최고 도전!</p>
+                            <p class="text-slate-600 text-[11.5px] mt-0.5">짝꿍과 한 단어씩 번갈아 선택하며 정확한 영어 문장을 만드세요.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Selection -->
+                <div>
+                    <label class="block text-xs font-extrabold text-blue-950 uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-layer-group text-blue-600 mr-1"></i> 학습 영역 선택
+                    </label>
+                    <select id="category-select" class="w-full bg-white border-2 border-cyan-300/80 rounded-xl px-4 py-2.5 text-slate-800 font-bold text-sm focus:outline-none focus:border-cyan-500 transition shadow-sm">
+                        <option value="ALL">전체 영역 종합 퀴즈 (145문장 중 랜덤)</option>
+                        <option value="TEXTBOOK">교과서 지문 (Lesson 5 & 6 - 62문장)</option>
+                        <option value="GRAMMAR_TO_INF">문법: to부정사 (19문장)</option>
+                        <option value="GRAMMAR_IT">문법: 비인칭 주어 It (33문장)</option>
+                        <option value="GRAMMAR_SENSORY">문법: 감각동사 (19문장)</option>
+                        <option value="GRAMMAR_GERUND">문법: 동명사 (12문장)</option>
+                    </select>
+                </div>
+
+                <!-- Player Input Section -->
+                <div>
+                    <label class="block text-xs font-extrabold text-blue-950 uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-users text-blue-600 mr-1"></i> 플레이어 별명 입력 (Pair)
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <span class="text-xs text-slate-600 block mb-1 font-bold">학생 1 (선공)</span>
+                            <input type="text" id="player1-name" value="민수" placeholder="별명 입력" class="w-full bg-white border-2 border-cyan-200 rounded-xl px-4 py-2.5 text-slate-800 font-bold placeholder-slate-400 focus:outline-none focus:border-cyan-500 transition shadow-sm">
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-600 block mb-1 font-bold">학생 2 (후공)</span>
+                            <input type="text" id="player2-name" value="지우" placeholder="별명 입력" class="w-full bg-white border-2 border-cyan-200 rounded-xl px-4 py-2.5 text-slate-800 font-bold placeholder-slate-400 focus:outline-none focus:border-cyan-500 transition shadow-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mode Selection -->
+                <div>
+                    <label class="block text-xs font-extrabold text-blue-950 uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-sliders text-blue-600 mr-1"></i> 플레이 모드
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="setMode('local')" id="btn-mode-local" class="mode-btn p-3 rounded-2xl border-2 border-cyan-500 bg-cyan-50 text-blue-950 font-bold text-sm flex flex-col items-center justify-center gap-1 shadow-sm">
+                            <i class="fa-solid fa-mobile-screen text-cyan-600 text-lg"></i>
+                            <span>한 화면 같이 하기</span>
+                            <span class="text-[10px] text-slate-500 font-normal">한 기기에서 번갈아 클릭</span>
+                        </button>
+                        <button type="button" onclick="setMode('ai')" id="btn-mode-ai" class="mode-btn p-3 rounded-2xl border border-slate-200 bg-white/70 text-slate-600 font-bold text-sm flex flex-col items-center justify-center gap-1 opacity-70">
+                            <i class="fa-solid fa-robot text-lg text-slate-500"></i>
+                            <span>AI 짝꿍과 하기</span>
+                            <span class="text-[10px] text-slate-400 font-normal">혼자서 연습하기</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="startGame()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-sky-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black text-lg shadow-xl shadow-cyan-600/30 transition transform active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span>퀴즈 시작하기! (10문장 도전)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="screen-game" class="screen-block hidden space-y-5">
+            <!-- Progress Banner -->
+            <div class="bg-white/85 border border-white/90 rounded-2xl p-4 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 shadow-lg">
+                <div class="flex items-center space-x-2">
+                    <span id="quiz-progress-text" class="px-3 py-1 bg-cyan-100 border border-cyan-300 rounded-xl text-xs font-black text-cyan-900">
+                        Q 1 / 10
+                    </span>
+                    <span id="lesson-badge" class="px-2.5 py-1 bg-blue-100 border border-blue-300 rounded-xl text-xs font-bold text-blue-900">
+                        영역 이름
+                    </span>
+                    <span id="retry-mode-badge" class="hidden px-2.5 py-1 bg-rose-100 border border-rose-300 rounded-xl text-xs font-black text-rose-700 animate-pulse">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> 오답 재도전 모드
+                    </span>
+                </div>
+
+                <!-- Current Turn Display -->
+                <div id="turn-banner" class="flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">
+                    <div id="turn-indicator-dot" class="w-3 h-3 rounded-full bg-amber-300 animate-ping"></div>
+                    <span class="text-xs font-bold">현재 순서:</span>
+                    <span id="current-turn-name" class="text-sm font-black">민수</span>
+                </div>
+
+                <!-- Timer / Lives / Score -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="flex items-center text-blue-900 text-sm font-black gap-1 bg-white/90 px-2.5 py-1 rounded-xl border border-blue-200 shadow-sm">
+                        <i class="fa-solid fa-stopwatch text-amber-500"></i>
+                        <span id="timer-display" class="font-mono">00:00</span>
+                    </div>
+                    <div class="flex items-center text-rose-600 text-sm font-black gap-1 bg-white/90 px-2.5 py-1 rounded-xl border border-rose-200 shadow-sm" title="누적 오답 수">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                        <span>오답 <span id="mistake-count">0</span></span>
+                    </div>
+                    <div class="flex items-center text-amber-600 text-sm font-black gap-1 bg-white/90 px-2.5 py-1 rounded-xl border border-amber-200 shadow-sm">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        <span id="score-count">0</span>점
+                    </div>
+                </div>
+            </div>
+
+            <!-- Korean Sentence Prompt Card -->
+            <div class="bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 rounded-2xl p-6 text-center shadow-xl text-white relative overflow-hidden border border-white/40">
+                <div class="absolute top-0 right-0 bg-white/20 backdrop-blur-sm text-white text-[10.5px] font-bold px-3 py-1 rounded-bl-xl border-b border-l border-white/30">
+                    한글 해석 보고 영어 문장 완성하기
+                </div>
+                <p class="text-xs font-bold text-cyan-100 mb-2">다음에 올 알맞은 영어 단어를 클릭하세요</p>
+                <h3 id="kr-sentence-text" class="text-2xl sm:text-3xl font-black leading-snug tracking-tight drop-shadow">
+                    해석 문장
+                </h3>
+            </div>
+
+            <!-- Constructed Sentence Output Zone -->
+            <div class="bg-white/90 border-2 border-cyan-200/90 rounded-2xl p-5 min-h-[105px] flex flex-wrap items-center justify-center gap-2 shadow-inner">
+                <div id="word-slots-container" class="flex flex-wrap items-center justify-center gap-2">
+                    <!-- Word slots rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Word Bank Options -->
+            <div class="space-y-2">
+                <div class="flex justify-between items-center px-1">
+                    <span class="text-xs font-black text-blue-950 drop-shadow-sm">
+                        <i class="fa-solid fa-hand-pointer text-cyan-200 mr-1"></i> 단어를 순서대로 클릭하세요:
+                    </span>
+                    <button onclick="requestHint()" class="text-xs text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 font-extrabold px-3 py-1 rounded-xl transition shadow-sm flex items-center gap-1">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i> 힌트 보기
+                    </button>
+                </div>
+
+                <div id="word-bank-container" class="bg-white/75 border border-white rounded-2xl p-4 flex flex-wrap items-center justify-center gap-2.5 min-h-[110px] shadow-lg backdrop-blur-sm">
+                    <!-- Word choice buttons generated dynamically -->
+                </div>
+            </div>
+
+            <!-- Feedback Message -->
+            <div id="feedback-message" class="hidden rounded-xl p-3 text-center font-black text-sm transition animate-bounce shadow-md">
+                <!-- Feedback text -->
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+                <button onclick="undoLastWord()" class="px-4 py-2 rounded-xl bg-white/80 hover:bg-white border border-slate-300 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+                    <i class="fa-solid fa-rotate-left text-slate-500"></i> 한 단어 취소
+                </button>
+                <button id="btn-next-question" onclick="nextQuestion()" class="hidden px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-sm shadow-lg flex items-center gap-2 transition">
+                    <span>다음 문장</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="screen-block hidden space-y-6 max-w-xl mx-auto w-full text-center">
+            <div class="bg-white/90 border border-white rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+                <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-amber-400 via-amber-300 to-yellow-200 text-amber-950 flex items-center justify-center text-4xl shadow-lg shadow-amber-400/30 animate-float border-2 border-white">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div>
+                    <span class="text-xs font-black text-cyan-700 uppercase tracking-widest block mb-1">🎁 지문 영작 도전 완료!</span>
+                    <h2 id="result-main-title" class="text-3xl font-black text-slate-900">훌륭해요! 릴레이 영작 종료</h2>
+                    <p class="text-slate-600 text-sm mt-1 font-bold" id="pair-result-names">민수 & 지우 Pair 기록</p>
+                </div>
+
+                <!-- Stats summary grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                    <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3 shadow-sm">
+                        <span class="text-[10px] text-sky-800 block font-bold">총 소요 시간</span>
+                        <span id="final-time" class="text-xl font-mono font-black text-blue-900">00:00</span>
+                    </div>
+                    <div class="bg-cyan-50 border border-cyan-200 rounded-2xl p-3 shadow-sm">
+                        <span class="text-[10px] text-cyan-800 block font-bold">최종 점수</span>
+                        <span id="final-score" class="text-xl font-black text-cyan-700">100</span>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 shadow-sm">
+                        <span class="text-[10px] text-emerald-800 block font-bold">성공 문장</span>
+                        <span id="final-completed" class="text-xl font-black text-emerald-700">10 / 10</span>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3 shadow-sm">
+                        <span class="text-[10px] text-blue-800 block font-bold">정답률</span>
+                        <span id="final-accuracy" class="text-xl font-black text-blue-800">100%</span>
+                    </div>
+                </div>
+
+                <!-- Review Section -->
+                <div class="text-left space-y-4 pt-2">
+                    <div id="mistake-review-container" class="space-y-3 hidden bg-rose-50 border border-rose-200 rounded-2xl p-4 shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-rose-200 pb-2">
+                            <div>
+                                <h4 class="text-sm font-black text-rose-900 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> 오답 / 틀렸던 지문 복습
+                                </h4>
+                                <p class="text-[11px] text-rose-700 font-bold">직접 단어를 조합해 다시 영작해 보세요!</p>
+                            </div>
+                            <button onclick="startRetryAllMistakes()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-bold text-xs shadow-md flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                <span>틀린 문장 전체 다시 영작하기</span>
+                            </button>
+                        </div>
+                        <div id="mistake-sentences-list" class="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-black text-blue-950 uppercase flex items-center justify-between">
+                            <span><i class="fa-solid fa-list-check mr-1 text-cyan-600"></i> 이번 도전 문장 전체 복습</span>
+                            <span class="text-[10px] text-slate-500 font-normal">스피커 클릭 시 발음 재생</span>
+                        </h4>
+                        <div id="result-sentences-list" class="max-h-52 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                            <!-- Sentences will be appended here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button onclick="showScreen('screen-welcome')" class="flex-1 py-3 px-4 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-sm transition shadow-sm">
+                        <i class="fa-solid fa-house mr-1"></i> 처음으로
+                    </button>
+                    <button onclick="startGame()" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> 새 도전 시작 (10문장)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Teacher Sentence List Modal -->
+    <div id="teacher-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border border-cyan-200 rounded-3xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl">
+            <div class="p-4 border-b border-cyan-100 flex justify-between items-center bg-cyan-50/80 rounded-t-3xl">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-book text-cyan-600 text-lg"></i>
+                    <h3 class="font-black text-slate-900 text-base">중1 수록 전체 문장 목록 (<span id="modal-total-count">145</span>문장)</h3>
+                </div>
+                <button onclick="toggleTeacherModal()" class="text-slate-400 hover:text-slate-700 text-lg w-8 h-8 rounded-xl flex items-center justify-center hover:bg-white transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Filter tabs -->
+            <div class="p-3 bg-white border-b border-cyan-100 flex flex-wrap gap-1.5 text-xs">
+                <button onclick="filterModalList('ALL')" id="tab-modal-all" class="px-3 py-1.5 rounded-xl bg-cyan-600 text-white font-extrabold shadow-sm">전체 보기 (145)</button>
+                <button onclick="filterModalList('TEXTBOOK')" id="tab-modal-tb" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-cyan-50">교과서 지문 (62)</button>
+                <button onclick="filterModalList('GRAMMAR_TO_INF')" id="tab-modal-toinf" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-cyan-50">to부정사 (19)</button>
+                <button onclick="filterModalList('GRAMMAR_IT')" id="tab-modal-it" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-cyan-50">비인칭 It (33)</button>
+                <button onclick="filterModalList('GRAMMAR_SENSORY')" id="tab-modal-sensory" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-cyan-50">감각동사 (19)</button>
+                <button onclick="filterModalList('GRAMMAR_GERUND')" id="tab-modal-gerund" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-cyan-50">동명사 (12)</button>
+            </div>
+
+            <div id="modal-sentences-container" class="p-4 overflow-y-auto flex-grow space-y-3 custom-scrollbar">
+                <!-- Sentence items dynamically injected -->
+            </div>
+
+            <div class="p-3 border-t border-cyan-100 text-right bg-cyan-50/50 rounded-b-3xl">
+                <span class="text-xs font-bold text-cyan-800">※ 교과서 지문 62문장 + 핵심 영역별 문법 83문장 수록 완료</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/20 bg-white/20 backdrop-blur-sm py-3 text-center text-xs font-bold text-white">
+        <p>중학교 1학년 영어 교과서 지문 & 핵심 문법 릴레이 영작 학습 플랫폼 | Ocean Edition</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        const SENTENCE_DATABASE = [
+            // ==================== [SECTION 1: TEXTBOOK READINGS (62)] ====================
+            // Lesson 5: Amelia's Diary in Sokcho (35 sentences)
+            { id: 1, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "Amelia는 런던 출신이다.", en: "Amelia is from London." },
+            { id: 2, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "지난주에, 그녀는 수빈이의 가족과 함께 속초에 갔다.", en: "Last week, she went to Sokcho with Subin's family." },
+            { id: 3, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "이것은 Amelia의 여행기이다.", en: "Here is Amelia's travel diary." },
+            { id: 4, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "오늘은 날씨가 맑았다.", en: "It was sunny today." },
+            { id: 5, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "수빈이 가족과 나는 설악산을 등산했고 아주 큰 바위를 보았다.", en: "Subin's family and I hiked Seoraksan and saw a very big rock." },
+            { id: 6, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "그것은 흔들바위였다.", en: "It was Heundeulbawi." },
+            { id: 7, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "수빈이와 나는 그것을 밀었다.", en: "Subin and I pushed it." },
+            { id: 8, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "그 바위는 조금 흔들렸다.", en: "The rock shook a little." },
+            { id: 9, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "무서웠지만 정말 재미있었다!", en: "It was scary, but I had a lot of fun!" },
+            { id: 10, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "다음으로, 우리는 속초해수욕장으로 갔다.", en: "Next, we went to Sokcho Beach." },
+            { id: 11, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리는 해변 근처에 텐트 두 개를 쳤다.", en: "We put up two tents near the beach." },
+            { id: 12, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리는 저녁으로 한우를 먹었다.", en: "We had Korean beef for dinner." },
+            { id: 13, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "정말 맛있었다!", en: "It was delicious!" },
+            { id: 14, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "텐트 안에서 수빈이와 나는 파도 소리를 들었다.", en: "In our tent, Subin and I heard the waves." },
+            { id: 15, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리는 이야기를 나누고 많이 웃었다.", en: "We talked and laughed a lot." },
+            { id: 16, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "나는 내일 일출이 정말 보고 싶다.", en: "I really want to see the sunrise tomorrow." },
+            { id: 17, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리는 매우 일찍 일어났다.", en: "We woke up very early." },
+            { id: 18, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "밖은 어두웠다.", en: "It was dark outside." },
+            { id: 19, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "수빈이와 나는 해변으로 달려갔다.", en: "Subin and I ran to the beach." },
+            { id: 20, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "천천히 하늘이 붉게 물들었다.", en: "Slowly, the sky turned red." },
+            { id: 21, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "수빈이가 \"해 올라온다. 소원을 빌어!\"라고 말했다.", en: "Subin said, \"The sun is rising. Make a wish!\"" },
+            { id: 22, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "나는 눈을 감고 소원을 빌었다.", en: "I closed my eyes and made a wish." },
+            { id: 23, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "점심으로 우리는 감자전을 먹었다.", en: "For lunch, we ate gamjajeon." },
+            { id: 24, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "그것은 팬케이크 같았다.", en: "It was like a pancake." },
+            { id: 25, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "나는 그것이 정말 마음에 들었다.", en: "I loved it." },
+            { id: 26, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "점심 식사 후, 우리는 속초등대전망대를 방문했다.", en: "After lunch, we visited Sokcho Lighthouse Observatory." },
+            { id: 27, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리는 많은 가파른 계단을 걸어 올라갔다.", en: "We walked up many steep stairs." },
+            { id: 28, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리 다리는 피곤했다.", en: "Our legs were tired." },
+            { id: 29, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "하지만 정상에서의 경치는 아름다웠다.", en: "But at the top, the view was beautiful." },
+            { id: 30, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "우리는 도시와 바다, 그리고 산을 보았다.", en: "We saw the city, the ocean, and the mountains." },
+            { id: 31, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "수빈이가 \"이 등대는 약 70년 되었어. 밤에 배들을 위해 여전히 불빛을 비춰주고 있지.\"라고 말했다.", en: "Subin said, \"This lighthouse is about 70 years old. It still shines its light for ships at night.\"" },
+            { id: 32, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "나는 \"와, 정말 대단하다!\"라고 말했다.", en: "I said, \"Wow, that's amazing!\"" },
+            { id: 33, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "이번 여행의 모든 순간이 멋졌다.", en: "Every moment of this trip was wonderful." },
+            { id: 34, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "나는 사진을 많이 찍었다.", en: "I took many pictures." },
+            { id: 35, cat: "TEXTBOOK", lesson: "Lesson 5", topic: "Amelia's Diary", kr: "나는 항상 한국을 기억할 것이다.", en: "I will always remember Korea." },
+
+            // Lesson 6: Poke, Hawaii (9 sentences)
+            { id: 36, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "하와이에는 많은 섬이 있다.", en: "There are many islands in Hawaii." },
+            { id: 37, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "하와이 사람들은 생선을 먹는 것을 즐긴다.", en: "People in Hawaii enjoy eating fish." },
+            { id: 38, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "포케는 하와이의 유명한 생선 샐러드이다.", en: "Poke is a famous fish salad from Hawaii." },
+            { id: 39, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "포케는 하와이어로 \"자르는 것\"을 의미한다.", en: "Poke means \"to cut\" in Hawaiian." },
+            { id: 40, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "사람들은 생선을 작은 조각으로 자르고 그것들을 그릇에 담는다.", en: "People cut fish into small pieces and put them in a bowl." },
+            { id: 41, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "그들은 신선한 채소를 그것에 추가한다.", en: "They add fresh vegetables to it." },
+            { id: 42, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "포케는 알록달록해 보인다.", en: "Poke looks colorful." },
+            { id: 43, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "한번 먹어 보라.", en: "Try it." },
+            { id: 44, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Poke, Hawaii", kr: "그것은 맛이 좋다.", en: "It tastes great." },
+
+            // Lesson 6: Fondue, Switzerland (10 sentences)
+            { id: 45, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "스위스 사람들은 치즈를 먹는 것을 좋아한다.", en: "People in Switzerland like eating cheese." },
+            { id: 46, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "퐁뒤는 스위스에서 인기 있는 치즈 요리이다.", en: "Fondue is a popular cheese dish in Switzerland." },
+            { id: 47, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "퐁뒤를 만드는 것은 매우 쉽다.", en: "Making fondue is very easy." },
+            { id: 48, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "첫째, 냄비에 치즈를 데워라.", en: "First, heat cheese in a pot." },
+            { id: 49, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "다음으로, 빵을 작은 조각으로 잘라라.", en: "Next, cut bread into small pieces." },
+            { id: 50, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "이제, 퐁뒤를 즐기자.", en: "Now, let's enjoy fondue." },
+            { id: 51, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "긴 포크를 집어라.", en: "Pick up a long fork." },
+            { id: 52, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "빵 조각을 따뜻한 치즈에 살짝 담가라.", en: "Dip a piece of bread into the warm cheese." },
+            { id: 53, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "퐁뒤 맛이 어떤가?", en: "How does fondue taste?" },
+            { id: 54, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Fondue, Switzerland", kr: "그것은 맛있다!", en: "It tastes delicious!" },
+
+            // Lesson 6: Tom Yum Goong, Thailand (8 sentences)
+            { id: 55, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "태국의 날씨는 매우 덥다.", en: "The weather in Thailand is very hot." },
+            { id: 56, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "많은 태국 사람들은 매운 음식을 먹는 것을 즐긴다.", en: "Many Thai people enjoy eating spicy food." },
+            { id: 57, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "똠얌꿍은 인기 있는 태국 수프이다.", en: "Tom yum goong is a popular Thai soup." },
+            { id: 58, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "그것은 맵고 신맛이 난다.", en: "It tastes spicy and sour." },
+            { id: 59, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "똠얌꿍은 그 안에 새우가 들어 있다.", en: "Tom yum goong has shrimp in it." },
+            { id: 60, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "사람들은 밥과 함께 똠얌꿍을 먹는 것을 좋아한다.", en: "People like eating tom yum goong with rice." },
+            { id: 61, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "그것은 냄새가 좋다.", en: "It smells good." },
+            { id: 62, cat: "TEXTBOOK", lesson: "Lesson 6", topic: "Tom Yum Goong, Thailand", kr: "그것은 정말 맛있다.", en: "It's really tasty." },
+
+            // ==================== [SECTION 2: GRAMMAR - TO-INFINITIVE (19)] ====================
+            { id: 63, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "나는 시험에 합격하기를 기대했다.", en: "I expected to pass the exam." },
+            { id: 64, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "우리 아버지는 그 가방을 사는 것에 동의하셨다.", en: "My father agreed to buy the bag." },
+            { id: 65, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "나는 그에게 인형을 사 주기로 약속했다.", en: "I promised to buy a doll for him." },
+            { id: 66, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "Henry는 택시를 타기로 결심했다.", en: "Henry decided to take a taxi." },
+            { id: 67, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "Kate는 싱가포르에서 2달 동안 머물기로 계획했다.", en: "Kate planned to stay in Singapore for two months." },
+            { id: 68, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "우리 엄마는 외식하기로 결정했다.", en: "My mom decided to eat out." },
+            { id: 69, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "Tina는 중국어를 배우기로 계획했다.", en: "Tina planned to learn Chinese." },
+            { id: 70, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "나는 햄버거 하나를 주문하고 싶다.", en: "I want to order a hamburger." },
+            { id: 71, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "그는 영국을 다시 방문하기를 희망한다.", en: "He hopes to visit England again." },
+            { id: 72, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "Mike와 나는 오늘 밤 이 과제를 끝낼 것으로 예상했다.", en: "Mike and I expected to finish this project tonight." },
+            { id: 73, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "우리는 서로에게 솔직하기로 약속했다.", en: "We promised to be honest with each other." },
+            { id: 74, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "유나는 이번 여름에 부산에 가기로 결정했다.", en: "Yuna decided to go to Busan this summer." },
+            { id: 75, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "그녀의 할머니께서 거기에 사신다.", en: "Her grandmother lives there." },
+            { id: 76, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "유나는 할머니와 즐거운 시간을 보내기를 희망한다.", en: "Yuna hopes to have a great time with her grandmother." },
+            { id: 77, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "그녀는 할머니의 불고기를 먹을 것을 기대한다.", en: "She expects to eat her grandmother's bulgogi." },
+            { id: 78, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "그녀는 할머니께 선물을 드리기로 계획하고 있다.", en: "She plans to give a gift to her grandmother." },
+            { id: 79, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "그녀는 편지도 쓰기로 계획하고 있다.", en: "She plans to write a letter, too." },
+            { id: 80, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "그녀는 정말 신이 난다!", en: "She is so excited!" },
+            { id: 81, cat: "GRAMMAR_TO_INF", lesson: "문법 연습", topic: "to부정사 용법", kr: "Amy는 중국어를 잘 말하고 싶어 한다.", en: "Amy wants to speak Chinese well." },
+
+            // ==================== [SECTION 3: GRAMMAR - NON-REFERENTIAL 'IT' (33)] ====================
+            { id: 82, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "벌써 가을이다.", en: "It is autumn already." },
+            { id: 83, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "버스로 한 시간이 걸린다.", en: "It takes an hour by bus." },
+            { id: 84, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "그것은 우리 어머니의 반지이다.", en: "It is my mother's ring." },
+            { id: 85, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "그것은 매우 흥미진진한 경기였다.", en: "It was a very exciting game." },
+            { id: 86, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "어제는 날씨가 추웠다.", en: "It was cold yesterday." },
+            { id: 87, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "지금은 10시이다.", en: "It is 10 o'clock." },
+            { id: 88, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "일요일이다.", en: "It's Sunday." },
+            { id: 89, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "12월 25일이다.", en: "It's December 25th." },
+            { id: 90, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "비가 내린다.", en: "It's rainy." },
+            { id: 91, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "여기서 약 2 km 거리이다.", en: "It's about 2 km from here." },
+            { id: 92, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "9시이다.", en: "It's 9 o'clock." },
+            { id: 93, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "여기서 3 km 거리이다.", en: "It is 3 km from here." },
+            { id: 94, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "밖에는 눈이 내린다.", en: "It is snowy outside." },
+            { id: 95, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "오늘은 수요일이다.", en: "It is Wednesday today." },
+            { id: 96, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "오늘은 날씨가 덥다.", en: "It is hot today." },
+            { id: 97, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "북극은 매우 춥다.", en: "It is very cold at the North Pole." },
+            { id: 98, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "뉴질랜드는 겨울이다.", en: "It is winter in New Zealand." },
+            { id: 99, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "지금은 여름이다.", en: "It is summer now." },
+            { id: 100, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "지금은 12시 5분이다.", en: "It is twelve five now." },
+            { id: 101, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "오늘이 5월 17일인가요?", en: "Is it May 17th today?" },
+            { id: 102, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "역까지 200 m이다.", en: "It is 200 meters to the station." },
+            { id: 103, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "오늘 몇 월 며칠인가요?", en: "What date is it today?" },
+            { id: 104, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "10월 22일입니다.", en: "It is October 22nd." },
+            { id: 105, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "어제는 몇 월 며칠이었나요?", en: "What date was it yesterday?" },
+            { id: 106, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "10월 21일이었습니다.", en: "It was October 21st." },
+            { id: 107, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "오늘은 무슨 요일인가요?", en: "What day is it today?" },
+            { id: 108, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "화요일입니다.", en: "It is Tuesday." },
+            { id: 109, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "내일은 무슨 요일인가요?", en: "What day will it be tomorrow?" },
+            { id: 110, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "수요일일 것입니다.", en: "It will be Wednesday." },
+            { id: 111, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "오늘 날씨가 어떠한가요?", en: "How is the weather today?" },
+            { id: 112, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "구름이 꼈습니다.", en: "It is cloudy." },
+            { id: 113, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "이번 토요일 날씨는 어떨까요?", en: "How will the weather be this Saturday?" },
+            { id: 114, cat: "GRAMMAR_IT", lesson: "문법 연습", topic: "비인칭 주어 / 대명사 It", kr: "눈이 내릴 것입니다.", en: "It will be snowy." },
+
+            // ==================== [SECTION 4: GRAMMAR - SENSORY VERBS (19)] ====================
+            { id: 115, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 노래는 아름답게 들린다.", en: "The song sounds beautiful." },
+            { id: 116, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "바람이 매우 차갑게 느껴진다.", en: "The wind feels very cold." },
+            { id: 117, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "이 레몬주스는 신맛이 난다.", en: "This lemon juice tastes sour." },
+            { id: 118, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "이 샴푸는 좋은 냄새가 난다.", en: "This shampoo smells nice." },
+            { id: 119, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그녀는 새 드레스를 입으니 예뻐 보인다.", en: "She looks pretty in her new dress." },
+            { id: 120, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 아기의 피부는 정말 부드럽게 느껴진다.", en: "The baby's skin feels so soft." },
+            { id: 121, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "이 꽃은 달콤한 냄새가 난다.", en: "This flower smells sweet." },
+            { id: 122, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그녀는 이 사진에서 아름답게 보인다.", en: "She looks beautiful in this photo." },
+            { id: 123, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "왜 이 수프는 이상한 맛이 나지?", en: "Why does this soup taste strange?" },
+            { id: 124, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 소파는 편안해 보인다.", en: "The sofa looks comfortable." },
+            { id: 125, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 수프는 짠맛이 난다.", en: "The soup tastes salty." },
+            { id: 126, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "내 형은 어려 보인다.", en: "My older brother looks young." },
+            { id: 127, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "내 담요는 부드럽게 느껴진다.", en: "My blanket feels soft." },
+            { id: 128, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 우유는 신 냄새가 난다.", en: "The milk smells sour." },
+            { id: 129, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "불가사리는 별처럼 보인다.", en: "A starfish looks like a star." },
+            { id: 130, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "드럼 소리는 매우 크게 들린다.", en: "The drum sounds very loud." },
+            { id: 131, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 수프는 매운맛이 난다.", en: "The soup tastes spicy." },
+            { id: 132, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 케이크는 달콤한 냄새가 난다.", en: "The cake smells sweet." },
+            { id: 133, cat: "GRAMMAR_SENSORY", lesson: "문법 연습", topic: "감각동사 + 형용사", kr: "그 곰 인형은 부드럽게 느껴진다.", en: "The teddy bear feels soft." },
+
+            // ==================== [SECTION 5: GRAMMAR - GERUNDS (12)] ====================
+            { id: 134, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "Danny는 스페인어를 계속 배울 것이다.", en: "Danny will keep learning Spanish." },
+            { id: 135, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "Mike는 부모님을 위해 저녁 요리하는 것을 끝냈다.", en: "Mike finished cooking dinner for his parents." },
+            { id: 136, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "소라는 영어로 일기 쓰는 것을 즐긴다.", en: "Sora enjoys writing her diary in English." },
+            { id: 137, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "너는 정원 청소를 언제 끝냈니?", en: "When did you finish cleaning the garden?" },
+            { id: 138, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "오후 3시에 눈이 내리는 것이 멈췄다.", en: "It stopped snowing at 3 p.m." },
+            { id: 139, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "너는 다른 나라로 여행하는 것을 즐기니?", en: "Do you enjoy traveling to other countries?" },
+            { id: 140, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "유미는 매일 노래하는 것을 연습한다.", en: "Yumi practices singing every day." },
+            { id: 141, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "그 여자는 전화로 계속 말했다.", en: "The woman kept talking on the phone." },
+            { id: 142, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "나는 축구하는 것을 즐긴다.", en: "I enjoy playing soccer." },
+            { id: 143, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "나는 피아노 레슨을 계속 받을 것이다.", en: "I will keep taking piano lessons." },
+            { id: 144, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "너는 숙제를 하기 시작했니?", en: "Did you start doing your homework?" },
+            { id: 145, cat: "GRAMMAR_GERUND", lesson: "문법 연습", topic: "동명사를 목적어로 취하는 동사", kr: "나는 TV 보는 것을 멈추고 지금 그것을 해야 한다.", en: "I should stop watching TV and do that now." }
+        ];
+
+        let gameState = {
+            player1: "민수",
+            player2: "지우",
+            mode: "local",
+            category: "ALL",
+            questions: [],
+            currentIndex: 0,
+            currentTurnPlayerIndex: 0,
+            score: 0,
+            selectedWords: [],
+            targetWords: [],
+            wordOptions: [],
+            completedSentences: [],
+            mistakenQuestionIds: new Set(),
+            mistakeCount: 0,
+            elapsedSeconds: 0,
+            timerInterval: null,
+            isRetryMode: false
+        };
+
+        function startTimer() {
+            stopTimer();
+            gameState.elapsedSeconds = 0;
+            updateTimerDisplay();
+            gameState.timerInterval = setInterval(() => {
+                gameState.elapsedSeconds += 1;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+                gameState.timerInterval = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const formatted = formatTime(gameState.elapsedSeconds);
+            const el = document.getElementById('timer-display');
+            if (el) el.textContent = formatted;
+        }
+
+        function formatTime(totalSeconds) {
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function playSound(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime);
+                    osc.frequency.setValueAtTime(180, ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(420, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.05);
+                }
+            } catch (e) {}
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen-block').forEach(el => el.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function setMode(mode) {
+            gameState.mode = mode;
+            const btnLocal = document.getElementById('btn-mode-local');
+            const btnAi = document.getElementById('btn-mode-ai');
+            const p2Input = document.getElementById('player2-name');
+
+            if (mode === 'local') {
+                btnLocal.className = "mode-btn p-3 rounded-2xl border-2 border-cyan-500 bg-cyan-50 text-blue-950 font-bold text-sm flex flex-col items-center justify-center gap-1 shadow-sm";
+                btnAi.className = "mode-btn p-3 rounded-2xl border border-slate-200 bg-white/70 text-slate-600 font-bold text-sm flex flex-col items-center justify-center gap-1 opacity-70";
+                if (p2Input.value === "AI 짝꿍") p2Input.value = "지우";
+                p2Input.disabled = false;
+            } else {
+                btnAi.className = "mode-btn p-3 rounded-2xl border-2 border-cyan-500 bg-cyan-50 text-blue-950 font-bold text-sm flex flex-col items-center justify-center gap-1 shadow-sm";
+                btnLocal.className = "mode-btn p-3 rounded-2xl border border-slate-200 bg-white/70 text-slate-600 font-bold text-sm flex flex-col items-center justify-center gap-1 opacity-70";
+                p2Input.value = "AI 짝꿍";
+                p2Input.disabled = true;
+            }
+        }
+
+        function startGame() {
+            const p1 = document.getElementById('player1-name').value.trim() || "학생1";
+            const p2 = document.getElementById('player2-name').value.trim() || "학생2";
+            const selectedCat = document.getElementById('category-select').value;
+
+            gameState.player1 = p1;
+            gameState.player2 = p2;
+            gameState.category = selectedCat;
+            gameState.score = 0;
+            gameState.currentIndex = 0;
+            gameState.currentTurnPlayerIndex = 0;
+            gameState.completedSentences = [];
+            gameState.mistakenQuestionIds = new Set();
+            gameState.mistakeCount = 0;
+            gameState.isRetryMode = false;
+
+            let pool = [...SENTENCE_DATABASE];
+            if (selectedCat !== 'ALL') {
+                pool = pool.filter(q => q.cat === selectedCat);
+            }
+
+            const shuffled = [...pool].sort(() => 0.5 - Math.random());
+            gameState.questions = shuffled.slice(0, Math.min(10, shuffled.length));
+
+            document.getElementById('retry-mode-badge').classList.add('hidden');
+            updateHeaderStats();
+            loadQuestion(0);
+            startTimer();
+            showScreen('screen-game');
+        }
+
+        function startRetryAllMistakes() {
+            const mistakenItems = SENTENCE_DATABASE.filter(q => gameState.mistakenQuestionIds.has(q.id));
+            if (mistakenItems.length === 0) return;
+
+            gameState.isRetryMode = true;
+            gameState.questions = [...mistakenItems];
+            gameState.currentIndex = 0;
+            gameState.currentTurnPlayerIndex = 0;
+            gameState.score = 0;
+            gameState.completedSentences = [];
+            gameState.mistakenQuestionIds = new Set();
+            gameState.mistakeCount = 0;
+
+            document.getElementById('retry-mode-badge').classList.remove('hidden');
+            updateHeaderStats();
+            loadQuestion(0);
+            startTimer();
+            showScreen('screen-game');
+        }
+
+        function startSingleMistakeRetry(itemId) {
+            const item = SENTENCE_DATABASE.find(q => q.id === itemId);
+            if (!item) return;
+
+            gameState.isRetryMode = true;
+            gameState.questions = [item];
+            gameState.currentIndex = 0;
+            gameState.currentTurnPlayerIndex = 0;
+            gameState.score = 0;
+            gameState.completedSentences = [];
+            gameState.mistakenQuestionIds = new Set();
+            gameState.mistakeCount = 0;
+
+            document.getElementById('retry-mode-badge').classList.remove('hidden');
+            updateHeaderStats();
+            loadQuestion(0);
+            startTimer();
+            showScreen('screen-game');
+        }
+
+        function updateHeaderStats() {
+            const mistakeEl = document.getElementById('mistake-count');
+            if (mistakeEl) mistakeEl.textContent = gameState.mistakeCount;
+            document.getElementById('score-count').textContent = gameState.score;
+            document.getElementById('quiz-progress-text').textContent = `Q ${gameState.currentIndex + 1} / ${gameState.questions.length}`;
+        }
+
+        function loadQuestion(index) {
+            if (index >= gameState.questions.length) {
+                endGame();
+                return;
+            }
+
+            const currentQ = gameState.questions[index];
+            document.getElementById('kr-sentence-text').textContent = currentQ.kr;
+            document.getElementById('lesson-badge').textContent = `${currentQ.lesson} • ${currentQ.topic}`;
+
+            const rawTokens = currentQ.en.split(' ');
+            gameState.targetWords = rawTokens;
+            gameState.selectedWords = [];
+
+            const distractors = ["is", "the", "with", "very", "a", "like", "and", "in", "it", "to", "for"];
+            let extraWords = [];
+            if (rawTokens.length < 6) {
+                extraWords = distractors.filter(d => !rawTokens.includes(d)).slice(0, 2);
+            }
+
+            const allChoices = [...rawTokens, ...extraWords];
+            gameState.wordOptions = allChoices.map((word, id) => ({
+                id: id,
+                word: word,
+                used: false
+            })).sort(() => 0.5 - Math.random());
+
+            document.getElementById('btn-next-question').classList.add('hidden');
+            hideFeedback();
+            renderTurnBanner();
+            renderWordSlots();
+            renderWordBank();
+            updateHeaderStats();
+        }
+
+        function renderTurnBanner() {
+            const currentName = gameState.currentTurnPlayerIndex === 0 ? gameState.player1 : gameState.player2;
+            document.getElementById('current-turn-name').textContent = `${currentName} 차례!`;
+
+            const dot = document.getElementById('turn-indicator-dot');
+            if (gameState.currentTurnPlayerIndex === 0) {
+                dot.className = "w-3 h-3 rounded-full bg-amber-300 animate-ping";
+            } else {
+                dot.className = "w-3 h-3 rounded-full bg-emerald-300 animate-ping";
+            }
+        }
+
+        function renderWordSlots() {
+            const container = document.getElementById('word-slots-container');
+            container.innerHTML = '';
+
+            gameState.targetWords.forEach((target, idx) => {
+                const filledWordObj = gameState.selectedWords[idx];
+                const slotEl = document.createElement('div');
+
+                if (filledWordObj) {
+                    slotEl.className = "px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-en font-extrabold text-base shadow-md flex items-center gap-1.5 cursor-pointer hover:opacity-90";
+                    slotEl.innerHTML = `<span>${filledWordObj.word}</span>`;
+                    slotEl.onclick = () => undoWordAtIndex(idx);
+                } else {
+                    slotEl.className = "px-4 py-2 rounded-xl border-2 border-dashed border-cyan-300 bg-cyan-50/60 text-cyan-800 font-mono text-sm font-bold min-w-[60px] text-center";
+                    slotEl.textContent = idx + 1;
+                }
+                container.appendChild(slotEl);
+            });
+        }
+
+        function renderWordBank() {
+            const container = document.getElementById('word-bank-container');
+            container.innerHTML = '';
+
+            gameState.wordOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                if (opt.used) {
+                    btn.className = "px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-en font-bold text-base cursor-not-allowed opacity-40";
+                    btn.disabled = true;
+                    btn.textContent = opt.word;
+                } else {
+                    btn.className = "word-btn px-4 py-2 rounded-xl bg-white hover:bg-cyan-500 text-cyan-950 hover:text-white border border-cyan-300 hover:border-cyan-500 font-en font-black text-base shadow-sm hover:shadow-md transition active:scale-95";
+                    btn.textContent = opt.word;
+                    btn.onclick = () => selectWord(opt);
+                }
+                container.appendChild(btn);
+            });
+        }
+
+        function selectWord(opt) {
+            playSound('click');
+
+            const currentQ = gameState.questions[gameState.currentIndex];
+            const nextIndex = gameState.selectedWords.length;
+            const expectedWord = gameState.targetWords[nextIndex];
+
+            if (opt.word === expectedWord) {
+                opt.used = true;
+                gameState.selectedWords.push(opt);
+
+                renderWordSlots();
+                renderWordBank();
+
+                if (gameState.selectedWords.length === gameState.targetWords.length) {
+                    onSentenceCompleted();
+                } else {
+                    switchTurn();
+                }
+            } else {
+                playSound('wrong');
+                gameState.mistakeCount += 1;
+                gameState.mistakenQuestionIds.add(currentQ.id);
+
+                updateHeaderStats();
+                showFeedback(`아쉬워요! '${opt.word}'은(는) 이번 자리가 아닙니다.`, 'wrong');
+            }
+        }
+
+        function switchTurn() {
+            gameState.currentTurnPlayerIndex = (gameState.currentTurnPlayerIndex === 0) ? 1 : 0;
+            renderTurnBanner();
+
+            if (gameState.mode === 'ai' && gameState.currentTurnPlayerIndex === 1) {
+                setTimeout(playAiTurn, 800);
+            }
+        }
+
+        function playAiTurn() {
+            if (gameState.selectedWords.length >= gameState.targetWords.length) return;
+
+            const nextIdx = gameState.selectedWords.length;
+            const targetWord = gameState.targetWords[nextIdx];
+
+            const matchingOpt = gameState.wordOptions.find(o => !o.used && o.word === targetWord);
+            if (matchingOpt) {
+                selectWord(matchingOpt);
+            }
+        }
+
+        function undoLastWord() {
+            if (gameState.selectedWords.length === 0) return;
+            const popped = gameState.selectedWords.pop();
+            popped.used = false;
+
+            gameState.currentTurnPlayerIndex = (gameState.currentTurnPlayerIndex === 0) ? 1 : 0;
+            renderTurnBanner();
+            renderWordSlots();
+            renderWordBank();
+            hideFeedback();
+        }
+
+        function undoWordAtIndex(idx) {
+            while (gameState.selectedWords.length > idx) {
+                const popped = gameState.selectedWords.pop();
+                popped.used = false;
+            }
+            renderTurnBanner();
+            renderWordSlots();
+            renderWordBank();
+            hideFeedback();
+        }
+
+        function onSentenceCompleted() {
+            playSound('correct');
+            gameState.score += 10;
+            updateHeaderStats();
+
+            const currentQ = gameState.questions[gameState.currentIndex];
+            gameState.completedSentences.push(currentQ);
+
+            showFeedback(gameState.isRetryMode ? '오답 영작 성공! 완벽해요! 👏' : '축하합니다! 문장을 성공적으로 완성했습니다! 🎉', 'correct');
+
+            speakSentence(currentQ.en);
+
+            document.getElementById('btn-next-question').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            gameState.currentIndex += 1;
+            gameState.currentTurnPlayerIndex = 0;
+            loadQuestion(gameState.currentIndex);
+        }
+
+        function requestHint() {
+            const nextIdx = gameState.selectedWords.length;
+            if (nextIdx < gameState.targetWords.length) {
+                const hintWord = gameState.targetWords[nextIdx];
+                showFeedback(`💡 힌트: 다음 단어 첫 글자는 '${hintWord.charAt(0)}'입니다.`, 'hint');
+            }
+        }
+
+        function showFeedback(msg, type) {
+            const el = document.getElementById('feedback-message');
+            el.classList.remove('hidden', 'bg-emerald-100', 'border-emerald-300', 'text-emerald-900', 'bg-rose-100', 'border-rose-300', 'text-rose-900', 'bg-amber-100', 'border-amber-300', 'text-amber-900');
+
+            if (type === 'correct') {
+                el.classList.add('bg-emerald-100', 'border-2', 'border-emerald-300', 'text-emerald-900');
+            } else if (type === 'wrong') {
+                el.classList.add('bg-rose-100', 'border-2', 'border-rose-300', 'text-rose-900');
+            } else {
+                el.classList.add('bg-amber-100', 'border-2', 'border-amber-300', 'text-amber-900');
+            }
+
+            el.textContent = msg;
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-message').classList.add('hidden');
+        }
+
+        function speakSentence(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function endGame() {
+            stopTimer();
+            showScreen('screen-result');
+
+            const titleEl = document.getElementById('result-main-title');
+            if (gameState.isRetryMode) {
+                titleEl.textContent = "오답 영작 복습 완료!";
+            } else {
+                titleEl.textContent = "훌륭해요! 릴레이 영작 종료";
+            }
+
+            document.getElementById('pair-result-names').textContent = `${gameState.player1} & ${gameState.player2} Pair 도전 결과`;
+            document.getElementById('final-time').textContent = formatTime(gameState.elapsedSeconds);
+            document.getElementById('final-score').textContent = gameState.score;
+            document.getElementById('final-completed').textContent = `${gameState.completedSentences.length} / ${gameState.questions.length}`;
+
+            const totalTurns = gameState.completedSentences.length + gameState.mistakeCount;
+            const accuracy = totalTurns > 0 ? Math.round((gameState.completedSentences.length / totalTurns) * 100) : 100;
+            document.getElementById('final-accuracy').textContent = `${accuracy}%`;
+
+            if (accuracy >= 80) {
+                triggerConfetti();
+            }
+
+            const mistakeContainer = document.getElementById('mistake-review-container');
+            const mistakeListEl = document.getElementById('mistake-sentences-list');
+            mistakeListEl.innerHTML = '';
+
+            const mistakenItems = SENTENCE_DATABASE.filter(q => gameState.mistakenQuestionIds.has(q.id));
+
+            if (mistakenItems.length > 0) {
+                mistakeContainer.classList.remove('hidden');
+                mistakenItems.forEach((item) => {
+                    const card = document.createElement('div');
+                    card.className = "p-3 rounded-2xl bg-white border border-rose-200 flex justify-between items-center gap-2 shadow-sm";
+                    card.innerHTML = `
+                        <div class="space-y-0.5">
+                            <span class="text-[10px] font-bold text-rose-600 block">${item.lesson} • ${item.topic}</span>
+                            <p class="text-xs font-black text-slate-900 font-en">${item.en}</p>
+                            <p class="text-[11px] text-slate-600 font-bold">${item.kr}</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="startSingleMistakeRetry(${item.id})" class="px-2.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center gap-1 transition shadow-md">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>다시 영작</span>
+                            </button>
+                            <button onclick="speakSentence('${item.en.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')" class="w-8 h-8 rounded-xl bg-cyan-100 hover:bg-cyan-200 text-cyan-900 flex items-center justify-center transition">
+                                <i class="fa-solid fa-volume-high text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                    mistakeListEl.appendChild(card);
+                });
+            } else {
+                mistakeContainer.classList.add('hidden');
+            }
+
+            const listEl = document.getElementById('result-sentences-list');
+            listEl.innerHTML = '';
+
+            if (gameState.completedSentences.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-slate-500 p-2 font-bold">완성된 문장이 없습니다.</p>`;
+                return;
+            }
+
+            gameState.completedSentences.forEach((item, idx) => {
+                const isMistaken = gameState.mistakenQuestionIds.has(item.id);
+                const card = document.createElement('div');
+                card.className = "p-3 rounded-2xl bg-white border border-cyan-100 flex justify-between items-center gap-2 shadow-sm";
+                card.innerHTML = `
+                    <div class="space-y-0.5">
+                        <span class="text-[10px] font-bold text-cyan-700 block">
+                            ${item.lesson} • ${item.topic}
+                            ${isMistaken ? '<span class="text-rose-600 ml-1">(오답 후 완성)</span>' : '<span class="text-emerald-600 ml-1">(퍼펙트)</span>'}
+                        </span>
+                        <p class="text-xs font-black text-slate-900 font-en">${idx + 1}. ${item.en}</p>
+                        <p class="text-[11px] text-slate-600 font-bold">${item.kr}</p>
+                    </div>
+                    <button onclick="speakSentence('${item.en.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')" class="w-8 h-8 rounded-xl bg-cyan-100 hover:bg-cyan-200 text-cyan-900 flex items-center justify-center shrink-0 transition">
+                        <i class="fa-solid fa-volume-high text-xs"></i>
+                    </button>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function toggleTeacherModal() {
+            const modal = document.getElementById('teacher-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                filterModalList('ALL');
+            }
+        }
+
+        function filterModalList(cat) {
+            const tabIds = {
+                'ALL': 'tab-modal-all',
+                'TEXTBOOK': 'tab-modal-tb',
+                'GRAMMAR_TO_INF': 'tab-modal-toinf',
+                'GRAMMAR_IT': 'tab-modal-it',
+                'GRAMMAR_SENSORY': 'tab-modal-sensory',
+                'GRAMMAR_GERUND': 'tab-modal-gerund'
+            };
+
+            Object.keys(tabIds).forEach(key => {
+                const btn = document.getElementById(tabIds[key]);
+                if (btn) {
+                    if (key === cat) {
+                        btn.className = "px-3 py-1.5 rounded-xl bg-cyan-600 text-white font-extrabold shadow-sm";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-cyan-50";
+                    }
+                }
+            });
+
+            const container = document.getElementById('modal-sentences-container');
+            container.innerHTML = '';
+
+            const filtered = cat === 'ALL' ? SENTENCE_DATABASE : SENTENCE_DATABASE.filter(s => s.cat === cat);
+            document.getElementById('modal-total-count').textContent = filtered.length;
+
+            filtered.forEach(item => {
+                const el = document.createElement('div');
+                el.className = "p-3 rounded-2xl bg-cyan-50/50 border border-cyan-100 space-y-1 hover:border-cyan-300 transition";
+                el.innerHTML = `
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 font-bold">
+                        <span class="text-cyan-700 font-black">${item.lesson} [${item.topic}]</span>
+                        <span>문장 ID: #${item.id}</span>
+                    </div>
+                    <p class="text-sm font-black text-slate-900 font-en">${item.en}</p>
+                    <p class="text-xs text-slate-600 font-bold">${item.kr}</p>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                const duration = 3 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 35, spread: 360, ticks: 70, zIndex: 1000 };
+
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                const interval = setInterval(function() {
+                    const timeLeft = animationEnd - Date.now();
+                    if (timeLeft <= 0) {
+                        return clearInterval(interval);
+                    }
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                }, 250);
+            }
+        }
+    </script>
+</body>
+</html>
